@@ -126,6 +126,19 @@ class SdA(object):
         )
         return get_encoded_data
 
+    def single_encoder_function(self):
+
+        train_x = T.matrix('train_x')
+        # compile the theano function
+        get_single_encoded_data = theano.function(
+            [train_x],
+            outputs=self.out,
+            givens={
+                self.x: train_x
+            }
+        )
+        return get_single_encoded_data
+
 
 def test_SdA(finetune_lr=0.1, pretraining_epochs=15,
              pretrain_lr=0.001, training_epochs=1000,
