@@ -137,7 +137,8 @@ def cluster_train_data():
         test_labels = []
         for i in range(n_test_data):
             encoded_x = get_single_encoded_data(train_x=test_set_x.get_value(borrow=True)[i:i+1])
-            test_labels.append(get_kmeans_labels(centers, encoded_x)[0])
+            label, _ = get_kmeans_labels(centers, encoded_x)
+            test_labels.append(label)
             test_x[i] = encoded_x
         # else:
         #     cluster.getDimensionInfo(endoded_x)
