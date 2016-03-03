@@ -40,7 +40,7 @@ def label_faces_from_video(centers):
     #time = 1
     # capture frames from the camera
     for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
-        image, face_images = capture_and_detect(frame)
+        image, face_images = capture_and_detect(frame, face_cascade)
         
         for face in face_images:
             encoded_x = get_single_encoded_data(train_x=face)
@@ -69,7 +69,7 @@ def get_kmeans_labels(centers, x):
         dist.append(np.linalg.norm(center-x))
     return np.argmin(np.asarray(dist))
 
-def capture_and_detect(frame):
+def capture_and_detect(frame, face_cascade):
     image = frame.array
     im_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     faces = face_cascade.detectMultiScale(im_gray, 1.3, 5)
@@ -137,7 +137,6 @@ def cluster_train_data():
         test_labels = []
         for i in range(n_test_data):
             encoded_x = get_single_encoded_data(train_x=test_set_x.get_value(borrow=True)[i:i+1])
-            print "Test Encode: ", encoded_x.shape
             test_labels.append(get_kmeans_labels(centers, encoded_x))
             test_x[i] = encoded_x
         # else:
