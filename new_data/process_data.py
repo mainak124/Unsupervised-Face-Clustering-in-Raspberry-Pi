@@ -12,6 +12,7 @@ x1_test = x1[900:]
 x2_test = x2[900:]
 x3_test = x3[900:]
 
+
 train_x = np.concatenate((x1_train,x2_train,x3_train), axis=0)
 flat_train_x = np.zeros((train_x.shape[0], train_x.shape[1]*train_x.shape[2]), dtype=np.float32)
 
@@ -27,11 +28,55 @@ for i in xrange(test_x.shape[0]):
 flat_train_x = flat_train_x/255
 flat_test_x = flat_test_x/255
 
+train_mean = flat_train_x.mean(axis=0)
 train_data = flat_train_x - flat_train_x.mean(axis=0)
 test_data = flat_test_x - flat_test_x.mean(axis=0)
 
-np.random.shuffle(train_data)
-np.random.shuffle(test_data)
+labeled_train_data = []
+labeled_test_data = []
+ 
+i = 1
+num = 900
+for d1 in train_data:
+        l1 = []
+        if  i > 0 and i < num + 1:
+                l1.append(d1)
+                l1.append("label1")
+                labeled_train_data.append(l1)
+        elif i > num and i < 2*num + 1:
+                l1.append(d1)
+                l1.append("label2")
+                labeled_train_data.append(l1)
+        elif i >2*num and i < 3*num + 1:
+                l1.append(d1)
+                l1.append("label3")
+                labeled_train_data.append(l1)        
+        i += 1
 
-np.save("train_faces.npy", train_data)
-np.save("test_faces.npy", test_data)
+i = 1
+num = 100
+for d1 in test_data:
+        l1 = []
+        if  i > 0 and i < num + 1:
+                l1.append(d1)
+                l1.append("label1")
+                labeled_test_data.append(l1)
+        elif i > num and i < 2*num + 1:
+                l1.append(d1)
+                l1.append("label2")
+                labeled_test_data.append(l1)
+        elif i >2*num and i < 3*num + 1:
+                l1.append(d1)
+                l1.append("label3")
+                labeled_test_data.append(l1)
+        i += 1
+
+#np.random.shuffle(train_data)
+#np.random.shuffle(test_data)
+
+np.random.shuffle(labeled_train_data)
+np.random.shuffle(labeled_test_data)
+
+np.save("train_faces.npy", labeled_train_data)
+np.save("test_faces.npy", labeled_test_data)
+np.save("store_mean.npy", train_mean)

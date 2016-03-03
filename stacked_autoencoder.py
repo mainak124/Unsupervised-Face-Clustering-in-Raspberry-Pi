@@ -144,8 +144,16 @@ def test_SdA(finetune_lr=0.1, pretraining_epochs=15,
              pretrain_lr=0.001, training_epochs=1000,
              batch_size=20):
 
-    train_set_x = theano.shared(value = np.load('new_data/train_faces.npy'), borrow=True)
-    test_set_x  = theano.shared(value = np.load('new_data/test_faces.npy'), borrow=True)
+    train_set = np.load('new_data/train_faces.npy')
+    test_set = np.load('new_data/test_faces.npy')
+
+    tr_x = [i[0] for i in train_set]
+    te_x = [i[0] for i in test_set]
+    
+    train_set_x = theano.shared(value=np.asarray(tr_x), borrow=True)
+    test_set_x  = theano.shared(value=np.asarray(te_x), borrow=True)
+    # train_set_x = theano.shared(value = np.load('new_data/train_faces.npy'), borrow=True)
+    # test_set_x  = theano.shared(value = np.load('new_data/test_faces.npy'), borrow=True)
     
     # compute number of minibatches for training, validation and testing
     n_train_batches = train_set_x.get_value(borrow=True).shape[0]
