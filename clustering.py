@@ -45,10 +45,10 @@ def label_faces_from_video(centers):
         for face in face_images:
             encoded_x = get_single_encoded_data(train_x=face)
             if (IS_KMEANS == 1):
-                label_x = get_kmeans_labels(centers, encoded_x)
+                label_x, dist = get_kmeans_labels(centers, encoded_x)
             # else:    
             #     label_x = cluster.get_tseries_labels(encoded_x,time)
-            print("This is person: ", label_x)
+            print("This is person: ", label_x, dist)
         # time += 1
             
 
@@ -67,7 +67,7 @@ def get_kmeans_labels(centers, x):
     dist = []
     for center in centers:
         dist.append(np.linalg.norm(center-x))
-    return np.argmin(np.asarray(dist))
+    return np.argmin(np.asarray(dist)), np.minimum(np.asarray(dist))
 
 def capture_and_detect(frame, face_cascade):
     image = frame.array
@@ -137,7 +137,7 @@ def cluster_train_data():
         test_labels = []
         for i in range(n_test_data):
             encoded_x = get_single_encoded_data(train_x=test_set_x.get_value(borrow=True)[i:i+1])
-            test_labels.append(get_kmeans_labels(centers, encoded_x))
+            test_labels.append(get_kmeans_labels(centers, encoded_x)[0])
             test_x[i] = encoded_x
         # else:
         #     cluster.getDimensionInfo(endoded_x)
