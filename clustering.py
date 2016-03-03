@@ -206,4 +206,4 @@ def get_accuracy(data_x, data_y, labels):
 
 if __name__ == '__main__':
     centers = cluster_train_data()
-    label_faces_from_video(centers):
+    label_faces_from_video(centers)
