@@ -7,6 +7,10 @@ import cv2
 import io
 import math
 
+from picamera.array import PiRGBArray
+from picamera import PiCamera
+import time
+
 N_DIM = 100
 PARTITION = 10
 IS_KMEANS = 1
@@ -33,7 +37,7 @@ def label_faces_from_video(centers):
     
     get_single_encoded_data = sda.single_encoder_function()
 
-    time = 1
+    #time = 1
     # capture frames from the camera
     for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
         image, face_images = capture_and_detect(frame)
@@ -45,7 +49,7 @@ def label_faces_from_video(centers):
             # else:    
             #     label_x = cluster.get_tseries_labels(encoded_x,time)
             print("This is person: ", label_x)
-        time += 1
+        # time += 1
             
 
     	# show the frame

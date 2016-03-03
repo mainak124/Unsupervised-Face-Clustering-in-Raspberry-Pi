@@ -135,7 +135,8 @@ class SdA(object):
             outputs=self.out,
             givens={
                 self.x: train_x
-            }
+            },
+            allow_input_downcast=True
         )
         return get_single_encoded_data
 
