@@ -67,7 +67,7 @@ def get_kmeans_labels(centers, x):
     dist = []
     for center in centers:
         dist.append(np.linalg.norm(center-x))
-    return np.argmin(np.asarray(dist)), np.minimum(np.asarray(dist))
+    return np.argmin(np.asarray(dist)), min(np.asarray(dist))
 
 def capture_and_detect(frame, face_cascade):
     image = frame.array
